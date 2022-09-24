@@ -22,13 +22,14 @@
         <module>service_live</module>
     </modules>
     <dependencies>
+        <!--引入自己写的'工具'模块-->
         <dependency>
             <groupId>com.atguigu</groupId>
             <artifactId>service_utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <!--数据载体-->
+        <!--引入自己写的'数据载体'模块-->
         <dependency>
             <groupId>com.atguigu</groupId>
             <artifactId>model</artifactId>
