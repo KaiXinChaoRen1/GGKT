@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GgktException extends RuntimeException {
+
     private Integer code;
+
     private String msg;
 }
