@@ -51,7 +51,7 @@ public class Result<T> {
         result.setMessage("失败");
         return result;
     }
-
+    //因为返回结果还是Result所以就实现了链式操作
     public Result<T> message(String msg){
         this.setMessage(msg);
         return this;
