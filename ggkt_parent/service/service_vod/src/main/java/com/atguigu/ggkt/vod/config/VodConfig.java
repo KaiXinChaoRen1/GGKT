@@ -6,13 +6,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan("com/atguigu/ggkt/vod/mapper")
+@MapperScan("com.atguigu.ggkt.vod.mapper")
 public class VodConfig {
+
     /**
      * 分页插件
      */
     @Bean
-    public PaginationInterceptor paginationInterceptor(){
+    public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
     }
 }
