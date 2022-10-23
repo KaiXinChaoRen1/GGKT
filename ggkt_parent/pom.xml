@@ -16,6 +16,7 @@
         <version>2.2.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    
     <groupId>com.atguigu</groupId>
     <artifactId>ggkt_parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -153,3 +154,5 @@
     </build>
 
 </project>
+
+<!-- 2022.10.03 21:16 家中 留念 -->
