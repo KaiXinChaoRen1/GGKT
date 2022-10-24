@@ -1,4 +1,5 @@
- <template>    <!-- template使用elementui编写页面,下面script中进行接口调用 -->
+ <template> 
+    <!-- 讲师列表页面 在template使用elementui编写页面,下面script中进行接口调用 -->
   <div class="app-container"> 
     讲师列表
     <!--查询表单-->
@@ -97,12 +98,12 @@ import teacherApi from '@/api/vod/teacher'
 export default {
   data() {  //定义初始值
     return {
-      list: [], // 讲师列表
-      total: 0, // 总记录数
-      page: 1, // 当前页码
-      limit: 10, // 每页记录数
-      searchObj: {}, // 查询条件
-      multipleSelection: []// 批量删除选中的记录列表
+      list: [],                 // 讲师列表
+      total: 0,                 // 总记录数
+      page: 1,                  // 当前页码
+      limit: 10,                // 每页记录数
+      searchObj: {},            // 查询条件
+      multipleSelection: []     // 批量删除选中的记录列表
     }
   },
   created() { //页面渲染之前执行
@@ -113,17 +114,15 @@ export default {
     batchRemove() {
       //判断非空
       if(this.multipleSelection.length===0) {
-        this.$message.warning('请选择要删除的记录！')
+        this.$message.warning('还没选呢,叫我怎么删?')
         return
       }
-      this.$confirm('此操作将删除该讲师信息, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+      this.$confirm('真的要删吗?', '冷漠提示', {
+          confirmButtonText: '是的',
+          cancelButtonText: '算了',
           type: 'warning'
         }).then(() => {
           var idList = []
-          // [1,2,3]
-          //遍历数组
           for(var i=0;i<this.multipleSelection.length;i++) {
             var obj = this.multipleSelection[i]
             var id = obj.id
@@ -138,16 +137,16 @@ export default {
                   type: 'success',
                   message: '删除成功!'
                 });
-                //刷新
+                //刷新页面
                 this.fetchData()
             })
         })
     },
-    //复选框发生变化，调用方法，选中复选框行内容传递
+    //当复选框发生变化，调用方法，选中复选框行内容传递
     handleSelectionChange(selection) {
       this.multipleSelection = selection
     },
-    //跳转到添加表单页面
+    //点击添加,跳转到添加表单页面
     add() {
       this.$router.push({path:'/vod/teacher/create'})
     },
@@ -175,22 +174,22 @@ export default {
       this.searchObj = {}
       this.fetchData()
     },
-    //讲师删除
+    //讲师删除(elementUI提供,找到复制即可)
     removeById(id) {
       this.$confirm('此操作将删除该讲师信息, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+          confirmButtonText: '我偏要',
+          cancelButtonText: '要不算了吧',
           type: 'warning'
-        }).then(() => {
+        }).then(() => {                 
           //调用接口删除
           teacherApi.removeTeacherId(id)
-            .then(response => {
+            .then(response => {         
                 //提示
                 this.$message({
                   type: 'success',
                   message: '删除成功!'
                 });
-                //刷新
+                //刷新页面
                 this.fetchData()
             })
         })

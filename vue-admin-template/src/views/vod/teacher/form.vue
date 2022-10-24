@@ -1,4 +1,5 @@
 <template>
+  <!-- 讲师修改的表单页面 -->
   <div class="app-container">
     <!-- 输入表单 -->
     <el-form label-width="120px">
@@ -62,7 +63,7 @@ export default {
     }
   },
   created() {
-    //获取路径id值，根据id查询得到数据
+    //获取路径id值，判断是添加跳转过来的还是修改跳转过来的
     if(this.$route.params.id) {
       const id = this.$route.params.id
       this.fetchDataById(id)
