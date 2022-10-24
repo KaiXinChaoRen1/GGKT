@@ -19,8 +19,8 @@ public class TestCos {
 
     public static void main(String[] args) {
         // 1 初始化用户身份信息（secretId, secretKey）。
-        String secretId = "AKIDgkt9ILKBrHSPAhy3vZ0DxUmodEZfZNxH";
-        String secretKey = "69xXu1uXWJyPaW1JM9k7F9j4D6ujKiqi";
+        String secretId = "AKIDgkt9ILKBrHSPAhy3vZ0DxUmodEZfZNxHH";
+        String secretKey = "69xXu1uXWJyPaW1JM9k7F9j4D6ujKiqii";
         COSCredentials cred = new BasicCOSCredentials(secretId, secretKey);
         // 2 设置 bucket 的地域, 请参照 https://cloud.tencent.com/document/product/436/6224
         Region region = new Region("ap-beijing");
