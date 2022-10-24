@@ -12,14 +12,17 @@ import com.qcloud.cos.region.Region;
 
 import java.io.File;
 
+/**
+ * java代码操作腾讯云对象存储
+ */
 public class TestCos {
 
     public static void main(String[] args) {
         // 1 初始化用户身份信息（secretId, secretKey）。
-        String secretId = "AKIDCDyTigOpzsUpthETRWNyIK7dsrZ0A3g2";
-        String secretKey = "6vTmoZ3GCrGPHsCF2XliOnvmNhkW1FCs";
+        String secretId = "AKIDgkt9ILKBrHSPAhy3vZ0DxUmodEZfZNxH";
+        String secretKey = "69xXu1uXWJyPaW1JM9k7F9j4D6ujKiqi";
         COSCredentials cred = new BasicCOSCredentials(secretId, secretKey);
-        // 2 设置 bucket 的地域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
+        // 2 设置 bucket 的地域, 请参照 https://cloud.tencent.com/document/product/436/6224
         Region region = new Region("ap-beijing");
         ClientConfig clientConfig = new ClientConfig(region);
         // 这里建议设置使用 https 协议
@@ -28,11 +31,11 @@ public class TestCos {
         COSClient cosClient = new COSClient(cred, clientConfig);
 
         // 指定要上传的文件
-        File localFile = new File("D:\\01.jpg");
+        File localFile = new File("C:\\Users\\lwq\\Desktop\\01.jpg");
         // 指定文件将要存放的存储桶
-        String bucketName = "ggkt-atguigu-1310644373";
-// 指定文件上传到 COS 上的路径，即对象键。例如对象键为folder/picture.jpg，则表示将文件 picture.jpg 上传到 folder 路径下
-        String key = "/2022/01/01.jpg";
+        String bucketName = "ggkt-lwq-1314214887";
+        // 指定文件上传到 COS 上的路径，即对象键。例如对象键为folder/picture.jpg，则表示将文件 picture.jpg 上传到 folder 路径下
+        String key = "/folder1/folder1.1/01.jpg";
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, localFile);
         PutObjectResult putObjectResult = cosClient.putObject(putObjectRequest);
         System.out.println(JSON.toJSONString(putObjectResult));
