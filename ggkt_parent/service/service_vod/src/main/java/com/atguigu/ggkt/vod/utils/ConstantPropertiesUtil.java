@@ -1,10 +1,13 @@
 package com.atguigu.ggkt.vod.utils;
 
-import javafx.fxml.Initializable;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * 读取配置文件的工具类
+ * InitializingBean接口,表示在初始化bean的时候运行
+ */
 @Component
 public class ConstantPropertiesUtil implements InitializingBean {
 

@@ -21,45 +21,43 @@ import java.util.UUID;
 @Service
 public class FileServiceImpl implements FileService {
 
-    //文件上传
+    //文件上传腾讯云COS
     @Override
     public String upload(MultipartFile file) {
-        // 1 初始化用户身份信息（secretId, secretKey）。
+        //固定代码,复制即可***********
         String secretId = ConstantPropertiesUtil.ACCESS_KEY_ID;
         String secretKey = ConstantPropertiesUtil.ACCESS_KEY_SECRET;
         COSCredentials cred = new BasicCOSCredentials(secretId, secretKey);
-        // 2 设置 bucket 的地域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
         Region region = new Region(ConstantPropertiesUtil.END_POINT);
         ClientConfig clientConfig = new ClientConfig(region);
-        // 这里建议设置使用 https 协议
         clientConfig.setHttpProtocol(HttpProtocol.https);
-        // 3 生成 cos 客户端。
+        //生成 cos 客户端。
         COSClient cosClient = new COSClient(cred, clientConfig);
-
         // 存储桶的命名格式为 BucketName-APPID，此处填写的存储桶名称必须为此格式
         String bucketName = ConstantPropertiesUtil.BUCKET_NAME;
-        // 对象键(Key)是对象在存储桶中的唯一标识。  998u-09iu-09i-333
-        //在文件名称前面添加uuid值
-        String key = UUID.randomUUID().toString().replaceAll("-","")
-                +file.getOriginalFilename();
+
+
+        //在文件名称前面添加uuid值(不带'-'),防止名称相同覆盖
+        String key = UUID.randomUUID().toString().replaceAll("-", "") + file.getOriginalFilename();
         //对上传文件分组，根据当前日期  /2022/11/11
-        String dateTime = new DateTime().toString("yyyy/MM/dd");
-        key = dateTime+"/"+key;
+        String date = new DateTime().toString("yyyy/MM/dd");
+        key = date + "/" + key;
         try {
+            //这部分也是参考腾讯云文档写的
             //获取上传文件输入流
             InputStream inputStream = file.getInputStream();
             ObjectMetadata objectMetadata = new ObjectMetadata();
-            PutObjectRequest putObjectRequest = new PutObjectRequest(
-                    bucketName,
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName,
                     key,
                     inputStream,
-                    objectMetadata);
+                    objectMetadata
+            );
             // 高级接口会返回一个异步结果Upload
             PutObjectResult putObjectResult = cosClient.putObject(putObjectRequest);
-            //返回上传文件路径
-            //https://ggkt-atguigu-1310644373.cos.ap-beijing.myqcloud.com/01.jpg
-            String url = "https://"+bucketName+"."+"cos"+"."+ConstantPropertiesUtil.END_POINT+".myqcloud.com"+"/"+key;
+            //返回上传文件路径(没有直接返回,我们观察后手动拼接即可)
+            String url = "https://" + bucketName + "." + "cos" + "." + ConstantPropertiesUtil.END_POINT + ".myqcloud.com" + "/" + key;
             return url;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
