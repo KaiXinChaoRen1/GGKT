@@ -26,7 +26,7 @@
             <artifactId>velocity-engine-core</artifactId>
             <version>2.0</version>
         </dependency>
-        <!--        <====================-->
+        <!--腾讯云对象存储-->
         <dependency>
             <groupId>com.qcloud</groupId>
             <artifactId>cos_api</artifactId>
@@ -39,6 +39,7 @@
             <artifactId>joda-time</artifactId>
         </dependency>
 
+        <!--easyexcel,每次读取一行,poi读取整个表格-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
