@@ -31,18 +31,22 @@ import java.util.List;
 @Service
 public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> implements SubjectService {
 
+    /**
+     * 读取Excle要用的监听器对象
+     */
     @Autowired
     private SubjectListener subjectListener;
+
     //课程分类列表
     //懒加载，每次查询一层数据
     @Override
     public List<Subject> selectSubjectList(Long id) {
         //SELECT * FROM SUBJECT WHERE parent_id=0
         QueryWrapper<Subject> wrapper = new QueryWrapper<>();
-        wrapper.eq("parent_id",id);
+        wrapper.eq("parent_id", id);
         List<Subject> subjectList = baseMapper.selectList(wrapper);
         //subjectList遍历，得到每个subject对象，判断是否有下一层数据，有hasChildren=true
-        for (Subject subject:subjectList) {
+        for (Subject subject : subjectList) {
             //获取subject的id值
             Long subjectId = subject.getId();
             //查询
@@ -57,32 +61,31 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
     @Override
     public void exportData(HttpServletResponse response) {
         try {
-            //设置下载信息
+            //1.设置下载信息
             response.setContentType("application/vnd.ms-excel");
             response.setCharacterEncoding("utf-8");
-            // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+            // 这里URLEncoder.encode可以防止中文乱码,和easyexcel没有关系
             String fileName = URLEncoder.encode("课程分类", "UTF-8");
-            response.setHeader("Content-disposition", "attachment;filename="+ fileName + ".xlsx");
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
 
-            //查询课程分类表所有数据
+            //2.查询课程分类表中所有数据
             List<Subject> subjectList = baseMapper.selectList(null);
-
-            //List<Subject> ---  List<SubjectEeVo>
+            //List<Subject> ===>  List<SubjectEeVo>
             List<SubjectEeVo> subjectEeVoList = new ArrayList<>();
-            for (Subject subject: subjectList) {
+            for (Subject subject : subjectList) {
                 SubjectEeVo subjectEeVo = new SubjectEeVo();
-//                subjectEeVo.setId(subject.getId());
-//                subjectEeVo.setParentId(subject.getParentId());
-                BeanUtils.copyProperties(subject,subjectEeVo);
+                // BeanUtils.copyProperties(xx,xx)
+                BeanUtils.copyProperties(subject, subjectEeVo);
                 subjectEeVoList.add(subjectEeVo);
             }
 
-            //EasyExcel写操作
+            //3.EasyExcel写操作
             EasyExcel.write(response.getOutputStream(), SubjectEeVo.class)
                     .sheet("课程分类")
                     .doWrite(subjectEeVoList);
-        }catch(Exception e) {
-            throw new GgktException(20001,"导出失败");
+
+        } catch (Exception e) {
+            throw new GgktException(20001, "导出失败");
         }
     }
 
@@ -94,16 +97,15 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
                     SubjectEeVo.class,
                     subjectListener).sheet().doRead();
         } catch (IOException e) {
-            throw new GgktException(20001,"导入失败");
+            throw new GgktException(20001, "导入失败");
         }
     }
 
-    //判断是否有下一层数据
+    //判断是否有下一层数据的工具方法
     private boolean isChildren(Long subjectId) {
         QueryWrapper<Subject> wrapper = new QueryWrapper<>();
-        wrapper.eq("parent_id",subjectId);
+        wrapper.eq("parent_id", subjectId);
         Integer count = baseMapper.selectCount(wrapper);
-        // 1>0  true   0>0 false
-        return count>0;
+        return count > 0;
     }
 }
