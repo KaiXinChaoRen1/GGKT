@@ -1,7 +1,8 @@
 package com.atguigu.ggkt.model.vod;
 
-import com.atguigu.ggkt.model.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
@@ -54,7 +55,7 @@ public class Subject {
 	private Integer sort;
 
 	@ApiModelProperty(value = "是否包含子节点")
-	@TableField(exist = false)
+	@TableField(exist = false)			//表示当前属性不是数据库的字段
 	private boolean hasChildren;
 
 }

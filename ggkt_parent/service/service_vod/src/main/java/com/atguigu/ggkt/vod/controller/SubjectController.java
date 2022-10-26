@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -23,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value="/admin/vod/subject")
-//@CrossOrigin
+@CrossOrigin
 public class SubjectController {
 
     @Autowired
