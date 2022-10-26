@@ -25,19 +25,13 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value="/admin/vod/course")
-//@CrossOrigin
+@CrossOrigin
 public class CourseController {
 
     @Autowired
     private CourseService courseService;
 
-    //添加课程基本信息
-    @ApiOperation("添加课程基本信息")
-    @PostMapping("save")
-    public Result save(@RequestBody CourseFormVo courseFormVo) {
-        Long courseId = courseService.saveCourseInfo(courseFormVo);
-        return Result.ok(courseId);
-    }
+
 
     //点播课程列表
     @ApiOperation("点播课程列表")
@@ -48,6 +42,14 @@ public class CourseController {
         Page<Course> pageParam = new Page<>(page,limit);
         Map<String,Object> map = courseService.findPageCourse(pageParam,courseQueryVo);
         return Result.ok(map);
+    }
+
+    //添加课程基本信息
+    @ApiOperation("添加课程基本信息")
+    @PostMapping("save")
+    public Result save(@RequestBody CourseFormVo courseFormVo) {
+        Long courseId = courseService.saveCourseInfo(courseFormVo);
+        return Result.ok(courseId);
     }
 
     //根据id获取课程信息
