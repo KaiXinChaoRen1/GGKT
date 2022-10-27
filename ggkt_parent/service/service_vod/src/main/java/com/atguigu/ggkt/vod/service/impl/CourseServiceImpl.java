@@ -8,7 +8,6 @@ import com.atguigu.ggkt.vo.vod.*;
 import com.atguigu.ggkt.vod.mapper.CourseMapper;
 import com.atguigu.ggkt.vod.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
@@ -49,8 +48,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     //点播课程列表
     @Override
-    public Map<String, Object> findPageCourse(Page<Course> pageParam,
-                                              CourseQueryVo courseQueryVo) {
+    public Map<String, Object> findPageCourse(Page<Course> pageParam, CourseQueryVo courseQueryVo) {
         //获取条件值
         String title = courseQueryVo.getTitle();
         Long subjectId = courseQueryVo.getSubjectId();//二层分类
@@ -58,17 +56,17 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         Long teacherId = courseQueryVo.getTeacherId();
         //判断条件为空，封装条件
         QueryWrapper<Course> wrapper = new QueryWrapper<>();
-        if(!StringUtils.isEmpty(title)) {
-            wrapper.like("title",title);
+        if (!StringUtils.isEmpty(title)) {
+            wrapper.like("title", title);
         }
-        if(!StringUtils.isEmpty(subjectId)) {
-            wrapper.eq("subject_id",subjectId);
+        if (!StringUtils.isEmpty(subjectId)) {
+            wrapper.eq("subject_id", subjectId);
         }
-        if(!StringUtils.isEmpty(subjectParentId)) {
-            wrapper.eq("subject_parent_id",subjectParentId);
+        if (!StringUtils.isEmpty(subjectParentId)) {
+            wrapper.eq("subject_parent_id", subjectParentId);
         }
-        if(!StringUtils.isEmpty(teacherId)) {
-            wrapper.eq("teacher_id",teacherId);
+        if (!StringUtils.isEmpty(teacherId)) {
+            wrapper.eq("teacher_id", teacherId);
         }
 
         //调用方法实现条件查询分页
@@ -82,11 +80,11 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         list.stream().forEach(item -> {
             this.getNameById(item);
         });
-        //封装数据
+        //封装返回数据
         Map<String, Object> map = new HashMap<>();
-        map.put("totalCount",totalCount);
-        map.put("totalPage",totalPage);
-        map.put("records",list);
+        map.put("totalCount", totalCount);
+        map.put("totalPage", totalPage);
+        map.put("records", list);
         return map;
     }
 
@@ -95,7 +93,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     public Long saveCourseInfo(CourseFormVo courseFormVo) {
         //添加课程基本信息，操作course表
         Course course = new Course();
-        BeanUtils.copyProperties(courseFormVo,course);
+        BeanUtils.copyProperties(courseFormVo, course);
         baseMapper.insert(course);
 
         //添加课程描述信息，操作course_description
@@ -113,16 +111,16 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     public CourseFormVo getCourseInfoById(Long id) {
         //课程基本信息
         Course course = baseMapper.selectById(id);
-        if(course == null) {
+        if (course == null) {
             return null;
         }
         //课程描述信息
         CourseDescription courseDescription = descriptionService.getById(id);
         //封装
         CourseFormVo courseFormVo = new CourseFormVo();
-        BeanUtils.copyProperties(course,courseFormVo);
+        BeanUtils.copyProperties(course, courseFormVo);
         //封装描述
-        if(courseDescription != null) {
+        if (courseDescription != null) {
             courseFormVo.setDescription(courseDescription.getDescription());
         }
         return courseFormVo;
@@ -133,7 +131,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     public void updateCourseId(CourseFormVo courseFormVo) {
         //修改课程基本信息
         Course course = new Course();
-        BeanUtils.copyProperties(courseFormVo,course);
+        BeanUtils.copyProperties(courseFormVo, course);
         baseMapper.updateById(course);
         //修改课程描述信息
         CourseDescription description = new CourseDescription();
@@ -176,8 +174,8 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     //根据课程分类查询课程列表（分页）
     @Override
-    public Map<String,Object> findPage(Page<Course> pageParam,
-                                    CourseQueryVo courseQueryVo) {
+    public Map<String, Object> findPage(Page<Course> pageParam,
+                                        CourseQueryVo courseQueryVo) {
         //获取条件值
         String title = courseQueryVo.getTitle();//课程名称
         Long subjectId = courseQueryVo.getSubjectId();//二级分类
@@ -186,17 +184,17 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
         //判断条件值是否为空，封装
         QueryWrapper<Course> wrapper = new QueryWrapper<>();
-        if(!StringUtils.isEmpty(title)) {
-            wrapper.like("title",title);
+        if (!StringUtils.isEmpty(title)) {
+            wrapper.like("title", title);
         }
-        if(!StringUtils.isEmpty(subjectId)) {
-            wrapper.eq("subject_id",subjectId);
+        if (!StringUtils.isEmpty(subjectId)) {
+            wrapper.eq("subject_id", subjectId);
         }
-        if(!StringUtils.isEmpty(subjectParentId)) {
-            wrapper.eq("subject_parent_id",subjectParentId);
+        if (!StringUtils.isEmpty(subjectParentId)) {
+            wrapper.eq("subject_parent_id", subjectParentId);
         }
-        if(!StringUtils.isEmpty(teacherId)) {
-            wrapper.eq("teacher_id",teacherId);
+        if (!StringUtils.isEmpty(teacherId)) {
+            wrapper.eq("teacher_id", teacherId);
         }
         //调用方法进行条件分页查询
         Page<Course> pages = baseMapper.selectPage(pageParam, wrapper);
@@ -211,14 +209,14 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
         //封装其他数据（获取讲师名称 和 课程分类名称）
         records.stream().forEach(item -> {
-            this.getTeacherAndSubjectName(item);
+            getTeacherAndSubjectName(item);
         });
 
         //map集合返回
-        Map<String,Object> map = new HashMap<>();
-        map.put("totalCount",totalCount);
-        map.put("totalPage",totalPage);
-        map.put("records",records);
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCount", totalCount);
+        map.put("totalPage", totalPage);
+        map.put("records", records);
         return map;
     }
 
@@ -227,19 +225,19 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         //讲师名称
         Long teacherId = course.getTeacherId();
         Teacher teacher = teacherService.getById(teacherId);
-        if(teacher != null) {
-            course.getParam().put("teacherName",teacher.getName());
+        if (teacher != null) {
+            course.getParam().put("teacherName", teacher.getName());
         }
         //课程分类名称
         Long subjectParentId = course.getSubjectParentId();
         Subject oneSubject = subjectService.getById(subjectParentId);
-        if(oneSubject != null) {
-            course.getParam().put("subjectParentTitle",oneSubject.getTitle());
+        if (oneSubject != null) {
+            course.getParam().put("subjectParentTitle", oneSubject.getTitle());
         }
         Long subjectId = course.getSubjectId();
         Subject twoSubject = subjectService.getById(subjectId);
-        if(twoSubject != null) {
-            course.getParam().put("subjectTitle",twoSubject.getTitle());
+        if (twoSubject != null) {
+            course.getParam().put("subjectTitle", twoSubject.getTitle());
         }
         return course;
     }
@@ -249,7 +247,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     public Map<String, Object> getInfoById(Long courseId) {
         //view_count浏览数量 +1
         Course course = baseMapper.selectById(courseId);
-        course.setViewCount(course.getViewCount()+1);
+        course.setViewCount(course.getViewCount() + 1);
         baseMapper.updateById(course);
 
         //根据课程id查询
@@ -263,7 +261,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         Teacher teacher = teacherService.getById(course.getTeacherId());
 
         //封装map集合，返回
-        Map<String,Object> map = new HashMap();
+        Map<String, Object> map = new HashMap();
         map.put("courseVo", courseVo);
         map.put("chapterVoList", chapterVoList);
         map.put("description", null != courseDescription ? courseDescription.getDescription() : "");
@@ -286,19 +284,19 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     private Course getNameById(Course course) {
         //根据讲师id获取讲师名称
         Teacher teacher = teacherService.getById(course.getTeacherId());
-        if(teacher != null) {
+        if (teacher != null) {
             String name = teacher.getName();
-            course.getParam().put("teacherName",name);
+            course.getParam().put("teacherName", name);
         }
 
         //根据课程分类id获取课程分类名称
         Subject subjectOne = subjectService.getById(course.getSubjectParentId());
-        if(subjectOne != null) {
-            course.getParam().put("subjectParentTitle",subjectOne.getTitle());
+        if (subjectOne != null) {
+            course.getParam().put("subjectParentTitle", subjectOne.getTitle());
         }
         Subject subjectTwo = subjectService.getById(course.getSubjectId());
-        if(subjectTwo != null) {
-            course.getParam().put("subjectTitle",subjectTwo.getTitle());
+        if (subjectTwo != null) {
+            course.getParam().put("subjectTitle", subjectTwo.getTitle());
         }
         return course;
     }
