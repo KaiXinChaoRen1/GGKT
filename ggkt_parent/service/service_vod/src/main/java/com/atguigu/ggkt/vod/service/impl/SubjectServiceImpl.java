@@ -45,14 +45,11 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         QueryWrapper<Subject> wrapper = new QueryWrapper<>();
         wrapper.eq("parent_id", id);
         List<Subject> subjectList = baseMapper.selectList(wrapper);
-        //subjectList遍历，得到每个subject对象，判断是否有下一层数据，有hasChildren=true
+        //遍历，判断这一层的数据是否有子层级
         for (Subject subject : subjectList) {
-            //获取subject的id值
             Long subjectId = subject.getId();
-            //查询
-            boolean isChild = this.isChildren(subjectId);
-            //封装到对象里面
-            subject.setHasChildren(isChild);
+            boolean isChild = this.hasChildren(subjectId);
+            subject.setHasChildren(isChild); //这个属性设为true
         }
         return subjectList;
     }
@@ -102,7 +99,7 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
     }
 
     //判断是否有下一层数据的工具方法
-    private boolean isChildren(Long subjectId) {
+    private boolean hasChildren(Long subjectId) {
         QueryWrapper<Subject> wrapper = new QueryWrapper<>();
         wrapper.eq("parent_id", subjectId);
         Integer count = baseMapper.selectCount(wrapper);
