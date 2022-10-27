@@ -40,13 +40,12 @@ public class TeacherController {
                            @RequestBody(required = false) TeacherQueryVo teacherQueryVo) {
         //创建page对象
         Page<Teacher> pageParam = new Page<>(current, limit);
-        //判断teacherQueryVo对象是否为空
-        if (teacherQueryVo == null) {
-            //条件为空,查询全部
+        //根据teacherQueryVo对象进行查询
+        if (teacherQueryVo == null) {       //条件为空,则查询全部
             IPage<Teacher> pageModel = teacherService.page(pageParam, null);
             return Result.ok(pageModel);
-        } else {
-            //获取条件值，
+        } else {                            //有条件,则根据条件封装wrapper
+            //获取条件值
             String name = teacherQueryVo.getName();
             Integer level = teacherQueryVo.getLevel();
             String joinDateBegin = teacherQueryVo.getJoinDateBegin();
