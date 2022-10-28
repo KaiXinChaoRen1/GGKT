@@ -14,13 +14,13 @@ import java.util.Random;
 @Api(tags = "腾讯云点播")
 @RestController
 @RequestMapping("/admin/vod")
-//@CrossOrigin
+@CrossOrigin
 public class VodController {
 
     @Autowired
     private VodService vodService;
 
-    //返回客户端上传视频签名
+    // 返回客户端上传视频签名
     @GetMapping("sign")
     public Result sign() {
         Signature sign = new Signature();
@@ -37,18 +37,18 @@ public class VodController {
         } catch (Exception e) {
             System.out.print("获取签名失败");
             e.printStackTrace();
-            throw new GgktException(20001,"获取签名失败");
+            throw new GgktException(20001, "获取签名失败");
         }
     }
 
-    //上传视频接口
+    // 上传视频接口
     @PostMapping("upload")
     public Result upload() {
         String fileId = vodService.updateVideo();
         return Result.ok(fileId);
     }
 
-    //删除腾讯云视频
+    // 删除腾讯云视频
     @DeleteMapping("remove/{fileId}")
     public Result remove(@PathVariable String fileId) {
         vodService.removeVideo(fileId);

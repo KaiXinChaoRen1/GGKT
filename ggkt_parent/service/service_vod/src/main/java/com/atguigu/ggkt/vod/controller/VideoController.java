@@ -1,6 +1,5 @@
 package com.atguigu.ggkt.vod.controller;
 
-
 import com.atguigu.ggkt.model.vod.Video;
 import com.atguigu.ggkt.result.Result;
 import com.atguigu.ggkt.vod.service.VideoService;
@@ -18,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-04-22
  */
 @RestController
-@RequestMapping(value="/admin/vod/video")
-//@CrossOrigin
+@RequestMapping(value = "/admin/vod/video")
+@CrossOrigin
 public class VideoController {
 
     @Autowired
@@ -53,4 +52,3 @@ public class VideoController {
         return Result.ok(null);
     }
 }
-
