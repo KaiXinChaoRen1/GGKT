@@ -96,10 +96,9 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         BeanUtils.copyProperties(courseFormVo, course);
         baseMapper.insert(course);
 
-        //添加课程描述信息，操作course_description
+        //添加课程描述信息，操作course_description表
         CourseDescription courseDescription = new CourseDescription();
         courseDescription.setDescription(courseFormVo.getDescription());
-        //设置课程id
         courseDescription.setId(course.getId());
         descriptionService.save(courseDescription);
 
