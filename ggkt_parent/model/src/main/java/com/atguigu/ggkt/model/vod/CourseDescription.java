@@ -18,7 +18,7 @@ public class CourseDescription {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "id")
-	@TableId(type = IdType.INPUT)
+	@TableId(type = IdType.INPUT)		//主键策略是手动输入
 	private Long id;
 
 	@ApiModelProperty(value = "创建时间")
