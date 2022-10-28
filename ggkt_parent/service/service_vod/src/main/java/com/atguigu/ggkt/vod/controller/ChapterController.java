@@ -11,12 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * <p>
- * 课程 前端控制器
- * </p>
  *
- * @author atguigu
- * @since 2022-04-22
+ * 课程大纲接口
  */
 @RestController
 @RequestMapping(value = "/admin/vod/chapter")
