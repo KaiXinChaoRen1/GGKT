@@ -31,10 +31,10 @@ public class ChapterServiceImpl extends ServiceImpl<ChapterMapper, Chapter> impl
     @Autowired
     private VideoService videoService;
 
-    //1 大纲列表（章节和小节列表）
+    //1 获取大纲列表（章节和小节层次显示）
     @Override
     public List<ChapterVo> getTreeList(Long courseId) {
-        //定义最终数据list集合
+        //定义返回要返回的数据
         List<ChapterVo> finalChapterList = new ArrayList<>();
 
         //根据courseId获取课程里面所有章节
@@ -47,10 +47,8 @@ public class ChapterServiceImpl extends ServiceImpl<ChapterMapper, Chapter> impl
         wrapperVideo.eq(Video::getCourseId,courseId);
         List<Video> videoList = videoService.list(wrapperVideo);
 
-        //封装章节
-        //遍历所有章节
+        //遍历所有章节,封装章节
         for (int i = 0; i < chapterList.size(); i++) {
-            //得到课程每个章节
             Chapter chapter = chapterList.get(i);
             // chapter -- ChapterVo
             ChapterVo chapterVo = new ChapterVo();
@@ -73,7 +71,7 @@ public class ChapterServiceImpl extends ServiceImpl<ChapterMapper, Chapter> impl
                     videoVoList.add(videoVo);
                 }
             }
-            //把章节里面所有小节集合放到每个章节里面
+            //因为List里边放的是引用,所以chapterVo先添加到list里边也不影响他setChildren
             chapterVo.setChildren(videoVoList);
         }
         return finalChapterList;
