@@ -87,6 +87,8 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+<!--        maven默认不会加载java目录下的非java文件,因此想要加载xml需要如下配置-->
+<!--        #加载xml第一步(第二步在服务的配置文件中)-->
         <resources>
             <resource>
                 <directory>src/main/java</directory>
