@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Random;
 
+/**
+ * 因为腾讯云的服务端上传视频需要指定文件地址,所以暂时先用这种写死的方式,参考一下得了,具体可以回去细看视频
+ * swagger可以正确的上传视频,前端代码好像没写(可能是他知道自己讲的太烂了)
+ */
 @Api(tags = "腾讯云点播")
 @RestController
 @RequestMapping("/admin/vod")
@@ -19,6 +23,7 @@ public class VodController {
 
     @Autowired
     private VodService vodService;
+
 
     // 返回客户端上传视频签名
     @GetMapping("sign")

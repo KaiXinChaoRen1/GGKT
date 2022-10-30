@@ -30,7 +30,7 @@ public class VodServiceImpl implements VodService {
 
     @Value("${tencent.video.appid}")
     private String appId;
-    //上传视频
+    //上传视频(参考官方文档)
     @Override
     public String updateVideo() {
         //指定当前腾讯云账号id和key
@@ -39,12 +39,12 @@ public class VodServiceImpl implements VodService {
         //上传请求对象
         VodUploadRequest request = new VodUploadRequest();
         //设置视频文件在本地路径
-        request.setMediaFilePath("D:\\001.mp4");
+        request.setMediaFilePath("C:\\Users\\lwq\\Desktop\\11.mp4");
         //任务流
         request.setProcedure("LongVideoPreset");
         try {
             //调用方法上传视频，指定地域
-            VodUploadResponse response = client.upload("ap-guangzhou", request);
+            VodUploadResponse response = client.upload("ap-beijing", request);
             //获取上传之后视频id
             String fileId = response.getFileId();
             return fileId;
