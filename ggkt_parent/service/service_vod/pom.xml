@@ -45,12 +45,12 @@
             <artifactId>easyexcel</artifactId>
             <version>2.1.1</version>
         </dependency>
-
+        <!--腾讯云点播-->
         <dependency>
             <groupId>com.qcloud</groupId>
             <artifactId>vod_api</artifactId>
             <version>2.1.4</version>
-            <exclusions>
+           <exclusions>       <!--  排除依赖-->
                 <exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-log4j12</artifactId>
