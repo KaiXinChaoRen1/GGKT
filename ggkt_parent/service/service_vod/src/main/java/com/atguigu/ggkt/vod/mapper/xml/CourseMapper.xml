@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.ggkt.vod.mapper.CourseMapper">
 
-    <!--//根据课程id查询课程详情-->
+    <!--根据课程id查询课程详情-->
     <select id="selectCourseVoById" resultType="com.atguigu.ggkt.vo.vod.CourseVo">
         SELECT
             c.id,
@@ -37,7 +37,7 @@
         <include refid="tables"></include>
         WHERE c.id=#{id}
     </select>
-
+<!--    代码抽取-->
     <sql id="tables">
         course c
        LEFT OUTER JOIN teacher t ON c.teacher_id=t.id
