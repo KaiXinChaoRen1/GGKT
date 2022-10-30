@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface VideoVisitorMapper extends BaseMapper<VideoVisitor> {
 
-    //课程统计的接口
+    //课程统计的接口(多个参数需要起参数名?)
     List<VideoVisitorCountVo> findCount(@Param("courseId") Long courseId,
                                         @Param("startDate")String startDate,
                                         @Param("endDate")String endDate);
