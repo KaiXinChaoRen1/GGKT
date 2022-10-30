@@ -17,7 +17,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "/admin/vod/videoVisitor")
-@CrossOrigin
+//@CrossOrigin
 public class VideoVisitorController {
 
     @Autowired
