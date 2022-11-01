@@ -30,7 +30,7 @@ public class OrderInfoController {
     @Autowired
     private OrderInfoService orderInfoService;
 
-    //订单列表
+    //订单列表分页查询
     @GetMapping("{page}/{limit}")
     public Result listOrder(@PathVariable Long page,
                             @PathVariable Long limit,
