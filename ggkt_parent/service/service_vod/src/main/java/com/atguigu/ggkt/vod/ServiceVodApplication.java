@@ -5,6 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
+/**
+ * 视频点播模块(video on demand)
+ * 包括讲师,课程等
+ */
 @SpringBootApplication
 @ComponentScan(basePackages = "com.atguigu")
 @EnableDiscoveryClient  //开启注册中心功能
