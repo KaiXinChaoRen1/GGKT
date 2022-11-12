@@ -19,7 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URLEncoder;
 
-@Controller
+/**
+ * 微信用户进入公众号h5前端页面要进行后端授权再跳转前端
+ */
+
+@Controller         //用于页面跳转
 @RequestMapping("/api/user/wechat")
 public class WechatController {
 
@@ -32,16 +36,19 @@ public class WechatController {
     @Value("${wechat.userInfoUrl}")
     private String userInfoUrl;
 
-    //授权跳转
+    //授权跳转的主方法
     @GetMapping("authorize")
-    public String authorize(@RequestParam("returnUrl") String returnUrl,
-                            HttpServletRequest request) {
-        String url = wxMpService.oauth2buildAuthorizationUrl(userInfoUrl,
+    public String authorize(@RequestParam("returnUrl") String returnUrl, HttpServletRequest request) {
+        //调用官方工具包的方法
+        String url = wxMpService.oauth2buildAuthorizationUrl(
+                userInfoUrl,
                 WxConsts.OAUTH2_SCOPE_USER_INFO,
-                URLEncoder.encode(returnUrl.replace("guiguketan", "#")));
-        return "redirect:"+url;
+                URLEncoder.encode(returnUrl.replace("guiguketan", "#"))
+        );
+        return "redirect:" + url;
     }
 
+    //wxMpService工具包中要访问这个接口
     @GetMapping("userInfo")
     public String userInfo(@RequestParam("code") String code,
                            @RequestParam("state") String returnUrl) {
@@ -50,15 +57,16 @@ public class WechatController {
             WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
             //获取openid
             String openId = wxMpOAuth2AccessToken.getOpenId();
-            System.out.println("openid:"+openId);
+            System.out.println("openid:" + openId);
 
             //获取微信信息
             WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
-            System.out.println("wxMpUser:"+JSON.toJSONString(wxMpUser));
+            System.out.println("wxMpUser:" + JSON.toJSONString(wxMpUser));
 
             //获取微信信息添加数据库
+            //根据openId查询数据库信息(没有就添加)
             UserInfo userInfo = userInfoService.getUserInfoOpenid(openId);
-            if(userInfo == null) {
+            if (userInfo == null) {
                 userInfo = new UserInfo();
                 userInfo.setOpenId(openId);
                 userInfo.setNickName(wxMpUser.getNickname());
@@ -68,14 +76,13 @@ public class WechatController {
                 userInfoService.save(userInfo);
             }
 
-            //授权完成之后，跳转具体功能页面
-            //生成token，按照一定规则生成字符串，可以包含用户信息
-            String token = JwtHelper.createToken(userInfo.getId(),userInfo.getNickName());
-            //  localhost:8080/weixin?a=1&token=222
-            if(returnUrl.indexOf("?")==-1) {
-                return "redirect:"+returnUrl+"?token="+token;
-            } else {
-                return "redirect:"+returnUrl+"&token="+token;
+            //授权完成之后，生成token携带跳转到具体功能页面
+            String token = JwtHelper.createToken(userInfo.getId(), userInfo.getNickName());
+
+            if (returnUrl.indexOf("?") == -1) {                         //如果路径中本来一个参数都没有
+                return "redirect:" + returnUrl + "?token=" + token;     //添加参数
+            } else {                                                    //否则
+                return "redirect:" + returnUrl + "&token=" + token;     //拼接参数
             }
 
         } catch (WxErrorException e) {
