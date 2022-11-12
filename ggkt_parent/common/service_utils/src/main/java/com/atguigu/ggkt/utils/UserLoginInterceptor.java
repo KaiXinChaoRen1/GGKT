@@ -8,6 +8,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 编写拦截器
+ */
 public class UserLoginInterceptor implements HandlerInterceptor {
 
     private RedisTemplate redisTemplate;
