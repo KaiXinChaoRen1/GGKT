@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+/**
+ * 接入直播观看
+ */
+
 @RestController
 @RequestMapping("api/live/liveCourse")
 public class LiveCourseApiController {
@@ -21,6 +25,10 @@ public class LiveCourseApiController {
     @Autowired
     private LiveCourseService liveCourseService;
 
+    /**
+     * 前端的播放模板需要access_token就可以播放直播了
+     * 需要直播的id和用户的id
+     */
     @ApiOperation(value = "获取用户access_token")
     @GetMapping("getPlayAuth/{id}")
     public Result getPlayAuth(@PathVariable Long id) {
@@ -28,7 +36,7 @@ public class LiveCourseApiController {
         return Result.ok(object);
     }
 
-    @ApiOperation("根据ID查询课程")
+    @ApiOperation("根据ID查询直播课程信息用于显示直播界面")
     @GetMapping("getInfo/{courseId}")
     public Result getInfo(
             @ApiParam(value = "课程ID", required = true)
@@ -36,5 +44,4 @@ public class LiveCourseApiController {
         Map<String, Object> map = liveCourseService.getInfoById(courseId);
         return Result.ok(map);
     }
-    //ces
 }
