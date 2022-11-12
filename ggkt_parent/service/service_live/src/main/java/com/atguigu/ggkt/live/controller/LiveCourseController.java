@@ -22,12 +22,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * <p>
- * 直播课程表 前端控制器
- * </p>
- *
- * @author atguigu
- * @since 2022-05-09
+ * 直播后台管理接口编写
  */
 @RestController
 @RequestMapping(value = "/admin/live/liveCourse")
@@ -115,6 +110,9 @@ public class LiveCourseController {
 
     /**
      * 像在欢拓云手动添加直播一样,通过后台管理系统的后端代码也可以添加直播,使用其提供的工具类
+     * 执行这个方法后,直播就创建好了,等到时间,主播可以去打开软件开始直播了
+     * 除了连带的几个crud接口
+     * 剩下的核心部分其实就是怎么在在公众号里面的h5页面观看直播了,(api包)
      */
     @ApiOperation("直播课程添加")
     @PostMapping("save")
