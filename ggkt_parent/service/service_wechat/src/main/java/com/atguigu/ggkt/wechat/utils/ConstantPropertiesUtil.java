@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * 常量类，读取配置文件application.properties中的配置
+ * 读取和使用配置文件
  */
 @Component
 public class ConstantPropertiesUtil implements InitializingBean {
