@@ -6,6 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
+/**
+ * 这个user模块不是后台管理系统的管理员那个user
+ * 而是真正使用这个公众号服务的用户user
+ */
+
 @SpringBootApplication
 @EnableDiscoveryClient
 @MapperScan("com.atguigu.ggkt.user.mapper")
