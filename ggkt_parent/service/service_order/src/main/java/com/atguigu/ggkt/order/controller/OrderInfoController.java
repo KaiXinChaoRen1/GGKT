@@ -16,12 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 /**
- * <p>
- * 订单表 订单表 前端控制器
- * </p>
- *
- * @author atguigu
- * @since 2022-04-28
+ *  后台管理系统的订单Controller
  */
 @RestController
 @RequestMapping(value="/admin/order/orderInfo")
