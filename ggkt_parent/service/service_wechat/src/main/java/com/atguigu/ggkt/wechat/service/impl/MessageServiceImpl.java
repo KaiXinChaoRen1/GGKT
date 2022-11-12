@@ -25,23 +25,23 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     private WxMpService wxMpService;
 
-    //接收微信服务器发送来的消息
+    //处理 用户发消息->微信服务器->这里
     @Override
     public String receiveMessage(Map<String, String> param) {
         String content = "";
         String msgType = param.get("MsgType");
         //判断什么类型消息
         switch (msgType) {
-            case "text":   //普通文本类型，输入关键字java
+            case "text":   //文本类型(例如:直接输入java)
                 content = this.search(param);
                 break;
-            case "event":  //关注  取消关注  点击关于我们
+            case "event":  //事件类型(关注  取消关注  点击关于我们等)
                 String event = param.get("Event");
                 String eventKey = param.get("EventKey");
-                //关注
-                if("subscribe".equals(event)) {
+
+                if("subscribe".equals(event)) {             //关注
                     content = this.subscribe(param);
-                } else if("unsubscribe".equals(event)) { //取消关注
+                } else if("unsubscribe".equals(event)) {    //取消关注
                     content = this.unsubscribe(param);
                 } else if("CLICK".equals(event) && "aboutUs".equals(eventKey)) { //关于我们
                     content = this.aboutUs(param);
@@ -56,17 +56,17 @@ public class MessageServiceImpl implements MessageService {
         return content;
     }
 
-    //订单成功
+    //回复模板消息(每个人不一样),以订单为例
     @Override
     public void pushPayMessage(long id) {
-        //微信openid
+        //微信openid(公众号的使用者特有的,需要通过微信授权获取到自己的,在106~108集有讲)
         String openid = "oepf36SawvvS8Rdqva-Cy4flFFtg";
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
                 .toUser(openid)//要推送的用户openid
-                .templateId("V-x2o4oTIW4rXwGzyM-YprNBQV9XmKxwpk_rQpXeGCE")//模板id
+                .templateId("V-x2o4oTIW4rXwGzyM-YprNBQV9XmKxwpk_rQpXeGCE")//模板id(微信官方设置模板消息时有,用这个测试就行)
                 .url("http://ggkt2.vipgz1.91tunnel.com/#/pay/"+id)//点击模板消息要访问的网址
                 .build();
-        //3,如果是正式版发送消息，，这里需要配置你的信息
+        //3,模板消息的可变参数设置
         templateMessage.addData(new WxMpTemplateData("first", "亲爱的用户：您有一笔订单支付成功。", "#272727"));
         templateMessage.addData(new WxMpTemplateData("keyword1", "1314520", "#272727"));
         templateMessage.addData(new WxMpTemplateData("keyword2", "java基础课程", "#272727"));
@@ -102,10 +102,9 @@ public class MessageServiceImpl implements MessageService {
     }
 
     /**
+     * 普通文本就用模糊搜索(远程调用)
      * 处理关键字搜索事件
      * 图文消息个数；当用户发送文本、图片、语音、视频、图文、地理位置这六种消息时，开发者只能回复1条图文消息；其余场景最多可回复8条图文消息
-     * @param param
-     * @return
      */
     private String search(Map<String, String> param) {
         String fromusername = param.get("FromUserName");

@@ -22,25 +22,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 微信公众号的发送消息功能
+ * 1.校验
+ */
+
 @RestController
 @RequestMapping("/api/wechat/message")
 public class MessageController {
 
-    private static final String token = "ggkt";
+    private static final String token = "ggkt";     //要跟微信官网中手动配置的token一致
 
     @Autowired
     private MessageService messageService;
 
-    @GetMapping("/pushPayMessage")
-    public Result pushPayMessage() throws WxErrorException {
-        messageService.pushPayMessage(1L);
-        return Result.ok(null);
-    }
-
     /**
-     * 服务器有效性验证
-     * @param request
-     * @return
+     * 服务器有效性验证(接口路径要和公众号官网中配置的一致)
      */
     @GetMapping
     public String verifyToken(HttpServletRequest request) {
@@ -48,17 +45,24 @@ public class MessageController {
         String timestamp = request.getParameter("timestamp");
         String nonce = request.getParameter("nonce");
         String echostr = request.getParameter("echostr");
-        if (this.checkSignature(signature, timestamp, nonce)) {
+        if (this.checkSignature(signature, timestamp, nonce)) {        //校验方法,全是复制
             return echostr;
         }
         return echostr;
     }
 
     /**
-     * 接收微信服务器发送来的消息
-     * @param request
-     * @return
-     * @throws Exception
+     *  回复模板消息(每个人不一样),以订单为例
+     */
+    @GetMapping("/pushPayMessage")
+    public Result pushPayMessage() throws WxErrorException {
+        messageService.pushPayMessage(1L);
+        return Result.ok(null);
+    }
+
+
+    /**
+     * 处理 用户发消息->微信服务器->这里,处理后回复普通消息(每个人都一样)
      */
     @PostMapping
     public String receiveMessage(HttpServletRequest request) throws Exception {
@@ -70,6 +74,9 @@ public class MessageController {
         return message;
     }
 
+    /**
+     * xml->Map的工具方法
+     */
     private Map<String, String> parseXml(HttpServletRequest request) throws Exception {
         Map<String, String> map = new HashMap<String, String>();
         InputStream inputStream = request.getInputStream();
@@ -85,6 +92,9 @@ public class MessageController {
         return map;
     }
 
+    /**
+     * 校验的工具方法
+     */
     private boolean checkSignature(String signature, String timestamp, String nonce) {
         String[] str = new String[]{token, timestamp, nonce};
         //排序
