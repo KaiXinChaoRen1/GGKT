@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-@Api(tags = "腾讯视频点播")
+
+@Api(tags = "视频点播功能(腾讯云)")
 @RestController
 @RequestMapping("/api/vod")
 public class VodApiController {

@@ -90,10 +90,10 @@ public class VodServiceImpl implements VodService {
         if(video == null) {
             throw new GgktException(20001,"小节信息不存在");
         }
-
+        //把这两个返回给前端,前端参照文档就可以调用视频播放了
         Map<String, Object> map = new HashMap<>();
-        map.put("videoSourceId",video.getVideoSourceId());
-        map.put("appId",appId);
+        map.put("videoSourceId",video.getVideoSourceId());  //视频id
+        map.put("appId",appId);                             //腾讯云id
         return map;
     }
 }
