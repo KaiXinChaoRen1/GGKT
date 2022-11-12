@@ -1,7 +1,9 @@
 package com.atguigu.ggkt.live.mtcloud;
 
 import java.io.Serializable;
-
+/**
+ * 欢拓云提供的工具包代码
+ */
 public class CommonResult<T> implements Serializable {
     private static final long serialVersionUID = 7917345507074842804L;
     private String code;

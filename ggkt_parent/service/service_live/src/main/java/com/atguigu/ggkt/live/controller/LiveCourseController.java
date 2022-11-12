@@ -30,7 +30,7 @@ import java.util.List;
  * @since 2022-05-09
  */
 @RestController
-@RequestMapping(value="/admin/live/liveCourse")
+@RequestMapping(value = "/admin/live/liveCourse")
 public class LiveCourseController {
 
     @Autowired
@@ -39,20 +39,26 @@ public class LiveCourseController {
     @Autowired
     private LiveCourseAccountService liveCourseAccountService;
 
-    @ApiOperation(value = "获取最近的直播")
+    @ApiOperation(value = "获取最近的x个直播")
     @GetMapping("findLatelyList")
     public Result findLatelyList() {
         List<LiveCourseVo> list = liveCourseService.getLatelyList();
         return Result.ok(list);
     }
 
-    @ApiOperation(value = "修改配置")
+    /**
+     * 后台管理系统
+     */
+    @ApiOperation(value = "修改直播配置")
     @PutMapping("updateConfig")
     public Result updateConfig(@RequestBody LiveCourseConfigVo liveCourseConfigVo) {
         liveCourseService.updateConfig(liveCourseConfigVo);
         return Result.ok(null);
     }
 
+    /**
+     * 后台管理系统
+     */
     @ApiOperation(value = "获取直播账号信息")
     @GetMapping("getLiveCourseAccount/{id}")
     public Result getLiveCourseAccount(@PathVariable Long id) {
@@ -60,7 +66,10 @@ public class LiveCourseController {
         return Result.ok(liveCourseAccount);
     }
 
-    @ApiOperation(value = "获取直播配置信息")
+    /**
+     * 后台管理系统
+     */
+    @ApiOperation(value = "获取直播配置信息(是否开启商城,开启观看人数等配置)")
     @GetMapping("getCourseConfig/{id}")
     public Result getCourseConfig(@PathVariable Long id) {
         LiveCourseConfigVo liveCourseConfigVo = liveCourseService.getCourseConfig(id);
@@ -81,13 +90,22 @@ public class LiveCourseController {
         return Result.ok(liveCourseFormVo);
     }
 
-    //更新直播课程方法
+    /**
+     * 修改直播信息(可以点看看参数Vo里的信息)
+     * 1.查询信息回显到前端
+     * 2.修改内容
+     * 3.提交
+     */
     @PutMapping("update")
     public Result update(@RequestBody LiveCourseFormVo liveCourseFormVo) {
         liveCourseService.updateLiveById(liveCourseFormVo);
         return Result.ok(null);
     }
 
+    /**
+     * 删除表中数据
+     * 删除欢拓云中的数据
+     */
     @ApiOperation(value = "删除")
     @DeleteMapping("remove/{id}")
     public Result remove(@PathVariable Long id) {
@@ -95,6 +113,9 @@ public class LiveCourseController {
         return Result.ok(null);
     }
 
+    /**
+     * 像在欢拓云手动添加直播一样,通过后台管理系统的后端代码也可以添加直播,使用其提供的工具类
+     */
     @ApiOperation("直播课程添加")
     @PostMapping("save")
     public Result save(@RequestBody LiveCourseFormVo liveCourseFormVo) {
@@ -104,8 +125,8 @@ public class LiveCourseController {
 
     @ApiOperation("直播课程列表")
     @GetMapping("{page}/{limit}")
-    public Result list(@PathVariable Long page,@PathVariable Long limit) {
-        Page<LiveCourse> pageParam = new Page<>(page,limit);
+    public Result list(@PathVariable Long page, @PathVariable Long limit) {
+        Page<LiveCourse> pageParam = new Page<>(page, limit);
         IPage<LiveCourse> pageModel = liveCourseService.selectPage(pageParam);
         return Result.ok(pageModel);
     }

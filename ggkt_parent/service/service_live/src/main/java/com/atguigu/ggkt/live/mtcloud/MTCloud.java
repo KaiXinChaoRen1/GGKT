@@ -24,7 +24,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-
+/**
+ * 欢拓云提供的工具包代码
+ */
 public class MTCloud {
 
     /**

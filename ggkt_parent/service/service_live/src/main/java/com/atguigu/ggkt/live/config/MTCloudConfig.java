@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+/**
+ * 将工具包配置给spring管理
+ */
 @Component
 public class MTCloudConfig {
 
