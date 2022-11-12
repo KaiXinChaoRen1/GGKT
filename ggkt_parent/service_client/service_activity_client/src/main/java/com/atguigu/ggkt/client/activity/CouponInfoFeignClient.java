@@ -6,6 +6,10 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+/**
+ * 订单模块会用到优惠券模块
+ */
+
 @FeignClient(value = "service-activity")
 public interface CouponInfoFeignClient {
 
