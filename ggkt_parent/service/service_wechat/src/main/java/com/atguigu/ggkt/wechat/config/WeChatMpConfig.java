@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+/**
+ * 使用WeChatMp工具包要配置的,都是复制粘贴随便看看
+ */
+
 @Component
 public class WeChatMpConfig {
 
