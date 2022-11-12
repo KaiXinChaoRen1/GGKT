@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  *  编写接口专门提供远程调用
+ *  跟据id获取用户信息,多个模块用到
  */
 
 @FeignClient(value = "service-user") //接口所在的服务名字
