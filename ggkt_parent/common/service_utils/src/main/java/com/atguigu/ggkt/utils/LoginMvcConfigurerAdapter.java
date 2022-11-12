@@ -7,6 +7,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import javax.annotation.Resource;
 
+/**
+ * 设置拦截器的拦截路径
+ *
+ * 拦截器可以调用IOC容器中的各种依赖，而过滤器不能
+ * 过滤器可以修改request，而拦截器不能(?修改request是个什么概念)
+ * 过滤器必须在servlet容器中实现，而拦截器可以适用于javaEE，javaSE等各种环境
+ */
+
 @Configuration
 public class LoginMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
 
