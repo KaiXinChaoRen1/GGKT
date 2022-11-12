@@ -22,7 +22,7 @@ public interface MenuService extends IService<Menu> {
     //获取所有一级菜单
     List<Menu> findMenuOneInfo();
 
-    //同步菜单方法
+    //同步菜单到微信公众号
     void syncMenu();
 
     //公众号菜单删除

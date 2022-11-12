@@ -33,7 +33,7 @@ public class MenuVo {
     private Integer sort;
 
     @ApiModelProperty(value = "下级")
-    @TableField(exist = false)
+    //@TableField(exist = false)       这是Vo又不对应表,加这玩意干啥?
     private List<MenuVo> children;
 
 }

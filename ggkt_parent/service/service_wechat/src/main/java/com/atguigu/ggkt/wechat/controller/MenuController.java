@@ -16,12 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * <p>
- * 订单明细 订单明细 前端控制器
- * </p>
- *
- * @author atguigu
- * @since 2022-04-30
+ * 公众号菜单的crud和同步
  */
 @RestController
 @RequestMapping("/admin/wechat/menu")
@@ -37,30 +32,31 @@ public class MenuController {
         return Result.ok(null);
     }
 
-    //同步菜单方法
+    //5.同步菜单方法
     @GetMapping("syncMenu")
     public Result createMenu() {
         menuService.syncMenu();
         return Result.ok(null);
     }
 
-    //获取access_token
+    //4.获取access_token,微信公众号同步菜单首先要获取这个(但这个接口最后也没用,因为在那个微信的工具包里全都封装好了,淦,浪费感情)
     @GetMapping("getAccessToken")
     public Result getAccessToken() {
-        //拼接请求地址
+        //拼接请求地址(%s代表需要传参)
         StringBuffer buffer = new StringBuffer();
         buffer.append("https://api.weixin.qq.com/cgi-bin/token");
         buffer.append("?grant_type=client_credential");
         buffer.append("&appid=%s");
         buffer.append("&secret=%s");
-        //设置路径参数
+        //String拼接参数
         String url = String.format(buffer.toString(),
                 ConstantPropertiesUtil.ACCESS_KEY_ID,
                 ConstantPropertiesUtil.ACCESS_KEY_SECRET);
-        //get请求
+        //发送get请求
         try {
+            //发送请求,得到返回值
             String tokenString = HttpClientUtils.get(url);
-            //获取access_token
+            //获取返回值中的access_token
             JSONObject jsonObject = JSONObject.parseObject(tokenString);
             String access_token = jsonObject.getString("access_token");
             return Result.ok(access_token);
@@ -70,20 +66,22 @@ public class MenuController {
         }
     }
 
-    //获取所有菜单，按照一级和二级菜单封装
+    //3.获取所有菜单，按照一级和二级菜单封装
     @GetMapping("findMenuInfo")
     public Result findMenuInfo() {
         List<MenuVo> list = menuService.findMenuInfo();
         return Result.ok(list);
     }
 
-    //获取所有一级菜单
+    //2.获取所有一级菜单
     @GetMapping("findOneMenuInfo")
     public Result findOneMenuInfo() {
         List<Menu> list = menuService.findMenuOneInfo();
         return Result.ok(list);
     }
 
+
+    //1.简单crud
     @ApiOperation(value = "获取")
     @GetMapping("get/{id}")
     public Result get(@PathVariable Long id) {
