@@ -54,7 +54,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Autowired
     private UserInfoFeignClient userInfoFeignClient;
 
-    //生成订单方法
+    /**
+     * 生成订单
+     */
     @Override
     public Long submitOrder(OrderFormVo orderFormVo) {
         //1 获取生成订单条件值
@@ -62,8 +64,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         Long couponId = orderFormVo.getCouponId();
         Long userId = AuthContextHolder.getUserId();
 
-        //2 判断当前用户,针对当前课程是否已经生成订单
-        //课程id，用户id
+        //2 判断当前用户,针对当前课程是否已生成订单
+        //课程id，用户id(用户id在用户授权时装在了token里返回给了前端,所以前端能获取到)
         LambdaQueryWrapper<OrderDetail> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(OrderDetail::getCourseId,courseId);
         wrapper.eq(OrderDetail::getUserId,userId);
@@ -118,7 +120,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderDetail.setFinalAmount(orderDetail.getOriginAmount().subtract(orderDetail.getCouponReduce()));
         orderDetailService.save(orderDetail);
 
-        //7 更新优惠券状态
+        //7 更新优惠券使用状态
         if(null != orderFormVo.getCouponUseId()) {
             couponInfoFeignClient.updateCouponInfoUseStatus(orderFormVo.getCouponUseId(), orderInfo.getId());
         }

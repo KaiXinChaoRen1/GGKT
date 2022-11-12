@@ -8,6 +8,13 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 用户下单,生成订单
+ * 需要用户的id(远程调用获取用户详细信息,在前端公众号授权时装在token中返给前端了),课程id,优惠券信息(远程调用优惠券模块)
+ * 处理之
+ * 返回生成的订单信息
+ */
+
 @RestController
 @RequestMapping("api/order/orderInfo")
 public class OrderInfoApiController {
