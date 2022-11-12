@@ -22,13 +22,18 @@ public class OrderInfoApiController {
     @Autowired
     private OrderInfoService orderInfoService;
 
-    //生成订单方法
+    /**
+     * 生成订单方法
+     */
     @PostMapping("submitOrder")
     public Result submitOrder(@RequestBody OrderFormVo orderFormVo) {
         Long orderId = orderInfoService.submitOrder(orderFormVo);
         return Result.ok(orderId);
     }
 
+    /**
+     * 获取订单详情信息
+     */
     @ApiOperation(value = "获取")
     @GetMapping("getInfo/{id}")
     public Result getInfo(@PathVariable Long id) {
