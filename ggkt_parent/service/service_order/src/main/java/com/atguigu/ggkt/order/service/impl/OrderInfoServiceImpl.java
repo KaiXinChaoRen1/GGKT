@@ -144,7 +144,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return orderInfoVo;
     }
 
-    //更新订单状态 ：已经支付
+    //更新订单状态为--已经支付
     @Override
     public void updateOrderStatus(String out_trade_no) {
         //根据订单号查询订单
