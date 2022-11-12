@@ -13,10 +13,12 @@
     <artifactId>service_utils</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <dependencies>
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
+        <!-- jwt工具-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
