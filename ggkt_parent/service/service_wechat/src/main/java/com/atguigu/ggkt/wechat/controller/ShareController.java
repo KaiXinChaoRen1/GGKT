@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ *  138集链接分享给微信好友,这部分代码前后端都挺多,累了也没怎么看懂2022.11.12 21:23留念
+ */
+
 @RestController
 @RequestMapping("/api/wechat/share")
 public class ShareController {
@@ -28,7 +32,7 @@ public class ShareController {
 
         WxJsapiSignatureVo wxJsapiSignatureVo = new WxJsapiSignatureVo();
         BeanUtils.copyProperties(jsapiSignature, wxJsapiSignatureVo);
-        wxJsapiSignatureVo.setUserEedId(Base64Util.base64Encode(AuthContextHolder.getUserId()+""));
+        wxJsapiSignatureVo.setUserEedId(Base64Util.base64Encode(AuthContextHolder.getUserId() + ""));
         return Result.ok(wxJsapiSignatureVo);
     }
 
