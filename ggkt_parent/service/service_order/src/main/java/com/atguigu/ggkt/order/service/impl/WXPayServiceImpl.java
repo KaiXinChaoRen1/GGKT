@@ -21,7 +21,7 @@ public class WXPayServiceImpl implements WXPayService {
         Map<String,String> paramMap = new HashMap<>();
         //正式服务号id  固定值
         paramMap.put("appid", "wxf913bfa3a2c7eeeb");
-        //服务号商户号  固定值
+        //服务号商户号(固定值),下面还要用到一个商户Key也是一样
         paramMap.put("mch_id", "1481962542");
         paramMap.put("nonce_str", WXPayUtil.generateNonceStr());
         paramMap.put("body", "test");
@@ -32,20 +32,19 @@ public class WXPayServiceImpl implements WXPayService {
         paramMap.put("trade_type", "JSAPI");//支付类型，按照生成固定金额支付
         /*
         * 设置参数值当前微信用户openid
-        * 实现逻辑：第一步 根据订单号获取userid  第二步 根据userid获取openid
+        * 本应该做到的实现逻辑：
+        *           第一步 根据订单号获取userid
+        *           第二步 根据userid获取openid
         *
-        * 因为当前使用测试号，测试号不支持支付功能，为了使用正式服务号进行测试，使用下面写法
-        * 获取 正式服务号微信openid
-        *
-        * 通过其他方式获取正式服务号openid，直接设置
+        * 因为当前使用测试号，测试号不支持支付openid没用
+        * 所以用正式服务号测试支付功能
+        * 可以先写一个接口,调用微信服务获取正式号的openId,复制下来写死在代码里测试用
         * */
-        //TODO 一会完善代码
         paramMap.put("openid", "oQTXC56lAy3xMOCkKCImHtHoLLN4");
-
         try {
             //通过httpclient调用微信支付接口
             HttpClientUtils client = new HttpClientUtils("https://api.mch.weixin.qq.com/pay/unifiedorder");
-            //设置请求参数
+            //设置请求参数:商户Key
             String paramXml  = WXPayUtil.generateSignedXml(paramMap, "MXb72b9RfshXZD4FRGV5KLqmv5bx9LT9");
             client.setXmlParam(paramXml);
             client.setHttps(true);
