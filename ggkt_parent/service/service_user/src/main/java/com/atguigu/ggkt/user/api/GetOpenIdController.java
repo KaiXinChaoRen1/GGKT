@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URLEncoder;
 
 /**
- * 这个类好像没用啊
+ * 测试微信支付时需要用到真实的微信公众号而不是测试号
+ * 此方法的接口用于获取真实公众号的用户openid  注意要用真实号的id和密钥在配置文件中
  */
 
 @Controller
