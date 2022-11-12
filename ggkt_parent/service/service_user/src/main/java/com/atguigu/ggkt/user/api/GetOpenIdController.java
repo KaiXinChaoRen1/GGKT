@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URLEncoder;
 
+/**
+ * 这个类好像没用啊
+ */
+
 @Controller
 @RequestMapping("/api/user/openid")
 public class GetOpenIdController {
