@@ -61,7 +61,6 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
             //1.设置下载信息
             response.setContentType("application/vnd.ms-excel");
             response.setCharacterEncoding("utf-8");
-            // 这里URLEncoder.encode可以防止中文乱码,和easyexcel没有关系
             String fileName = URLEncoder.encode("课程分类", "UTF-8");
             response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
 
